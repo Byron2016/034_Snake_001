@@ -1,0 +1,24 @@
+{
+  "name": "034_Snake_001",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "workspaces": [
+    "projects/*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Byron2016/034_Snake_001.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Byron2016/034_Snake_001/issues"
+  },
+  "homepage": "",
+  "devDependencies": {}
+}
