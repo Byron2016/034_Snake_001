@@ -1,11 +1,30 @@
 ---
+// Layout
 import Layout from '../layouts/Layout.astro';
+import SnakeLayout from "../layouts/SnakeLayout.astro";
+
+// Components
+import ContenedorPrincipal_a from "../components/snake/ContenedorPrincipal_a";
 ---
 
 <Layout title="Welcome to Astro.">
 	<main>
 		<h1>Inicial</h1>
 	</main>
+	<section class="enIndex">
+    <!-- <div>
+      <h1>Some utilities into Astrojs</h1>
+      <span>Home Page</span>
+    </div> -->
+    <SnakeLayout>
+      <ContenedorPrincipal_a
+        width={650}
+        height={380}
+        fillColor={"#1B1C30"}
+        client:load
+      />
+    </SnakeLayout>
+  </section>
 </Layout>
 
 <style>

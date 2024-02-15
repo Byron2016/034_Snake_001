@@ -17,5 +17,9 @@ Igualmanera está basado en los tutoriales de youtube de **Migual Angel Duran**:
 
 | Número | Proyecto                   | Código                                    | Web  |
 | ------ | -------------------------- | ----------------------------------------- | ---- |
-| `01`   | Código original (Jhampier) | [Ver](projects\a_snake_original_vanilla/) | []() |
-| `02`   | ...                        | [Ver](projects//)                         | []() |
+| `01`   | Código original (Jhampier) | [Ver](projects/a_snake_original_vanilla/) | []() |
+| `02`   | Código con AstroJs + ⚛️    | [Ver](projects/b_snake_astro_react/)      | []() |
+
+## Problema presentado 🔥🔥🔥🔥🔥
+
+![Error de renderizado](/img/Snake_errorO.jpg)
