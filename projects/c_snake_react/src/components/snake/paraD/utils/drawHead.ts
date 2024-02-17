@@ -17,6 +17,9 @@ export function drawHead({
   eyeOne,
   eyeTwo,
 }: DrawHead) {
+  // draw snake's head circle
+  //console.log(`drawHead - newPosition: ${position.x} - ${position.y}`);
+
   drawCircle({
     position,
     radio,
@@ -26,7 +29,9 @@ export function drawHead({
     ctx,
   });
 
+  // draw snake's eye 1
   drawEye({ ...eyeOne, ctx });
+  // draw snake's eye 2
   drawEye({ ...eyeTwo, ctx });
 }
 

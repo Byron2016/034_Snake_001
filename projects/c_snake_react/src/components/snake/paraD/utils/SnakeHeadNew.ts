@@ -3,6 +3,7 @@ import type {
   SnakeHeadProps,
   EyeCommonProperties,
   EyesDesp,
+  Positon,
 } from "../type/type";
 
 export function SnakeHeadNew({
@@ -16,7 +17,17 @@ export function SnakeHeadNew({
 }: SnakeHeadProps) {
   //const keys: KeysPressed = { key1: false, key2: false, enable: true };
 
-  function draw(ctx: CanvasRenderingContext2D, rotation: number) {
+  function draw(
+    position: Positon,
+    ctx: CanvasRenderingContext2D,
+    rotation: number
+  ) {
+    //const delta = count % 800;
+    //const newPosition = { x: position.x + delta, y: position.y };
+
+    //position = { x: position.x + delta, y: position.y };
+
+    //#region Eyes
     //#region Eye-des-vars
     let desp_sclera: EyesDesp = {
       desp_x: 0,
@@ -34,11 +45,6 @@ export function SnakeHeadNew({
       radio: -9,
     };
     //#endregion Eye-des-vars
-
-    //const delta = count % 800;
-    //const newPosition = { x: position.x + delta, y: position.y };
-
-    //position = { x: position.x + delta, y: position.y };
 
     const eyeOne: EyeCommonProperties = {
       position,
@@ -83,6 +89,20 @@ export function SnakeHeadNew({
       irisTransparency: 1,
       pupilTransparency: 1,
     };
+    //#endregion Eyes
+
+    //console.log(`draw - newPosition: ${position.x} - ${position.y}`);
+
+    position = {
+      x: position.x + 0 + Math.cos(rotation) * 1.5,
+      y: position.x + 0 + Math.sin(rotation) * 1.5,
+    };
+    // const newPosition = {
+    //   ...position,
+    //   x: position.x + Math.cos(rotation) * 1.5,
+    //   y: position.x + Math.sin(rotation) * 1.5,
+    // };
+    //console.log(`draw - newPosition: ${position.x} - ${position.y} -- rotation: ${rotation}`);
 
     ctx.save();
 
@@ -108,7 +128,15 @@ export function SnakeHeadNew({
   }
 
   function updateSnake(ctx: CanvasRenderingContext2D, rotation: number) {
-    draw(ctx, rotation);
+    const newPosition = {
+      ...position,
+      x: position.x + Math.cos(rotation) * 1.5,
+      y: position.x + Math.sin(rotation) * 1.5,
+    };
+    //console.log(`newPosition: ${newPosition.x} - ${newPosition.y}`);
+    //position.x = position.x + Math.cos(rotation);
+
+    draw(newPosition, ctx, rotation);
     //Rotation
     const rotationAngle = 0.04;
 
@@ -121,8 +149,6 @@ export function SnakeHeadNew({
       rotation = rotation + rotationAngle;
       handleRotation({ rotationValue: rotation });
     }
-
-    //position.x = position.x + Math.cos(rotation);
   }
 
   updateSnake(ctx, rotation);
