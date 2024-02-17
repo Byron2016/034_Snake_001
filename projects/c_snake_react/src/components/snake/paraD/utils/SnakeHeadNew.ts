@@ -26,9 +26,15 @@ export function SnakeHeadNew({
 
     // snakes' translations.
     const newPosition: Position = {
-      x: snakeBase.position.x + Math.cos(rotation) * snakeBase.velocity,
+      x:
+        snakeBase.position.x +
+        Math.cos(snakeBase.rotation) * snakeBase.velocity,
       y: snakeBase.position.y + Math.sin(rotation) * snakeBase.velocity,
     };
+
+    // console.log(
+    //   `draw - newPosition: ${newPosition.x} - ${newPosition.y} - snake.rotation : ${snakeBase.rotation}`
+    // );
 
     const newSnakeBase = { ...snakeBase };
     newSnakeBase.position = newPosition;
@@ -103,6 +109,7 @@ export function SnakeHeadNew({
       irisTransparency: SNAKE_HEAD_PROPERTIES.SNAKE_EYE_TWO_IRIS_TRANSPARENCY,
       pupilTransparency: SNAKE_HEAD_PROPERTIES.SNAKE_EYE_TWO_PUPIL_TRANSPARENCY,
     };
+
     //#endregion Eyes
 
     ctx.save();
@@ -130,7 +137,7 @@ export function SnakeHeadNew({
 
   function updateSnake(ctx: CanvasRenderingContext2D, rotation: number) {
     draw(ctx, rotation);
-
+    //console.log(rotation);
     //Rotation
     const rotationAngle = 0.04;
 
