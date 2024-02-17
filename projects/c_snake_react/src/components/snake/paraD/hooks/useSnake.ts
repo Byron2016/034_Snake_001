@@ -15,8 +15,8 @@ export function useSnake({
   color,
 }: SnakeBackgroundProps) {
   const [snakeBase, setSnakeBase] = useState<SnakeBase>({
-    position: { x: 100, y: 200 },
-    velocity: 1.5,
+    position: { x: 50, y: 50 },
+    velocity: 0.05,
     rotation: 0,
     keys: { key1: false, key2: false, enable: true },
   });
@@ -93,11 +93,9 @@ export function useSnake({
         ctx,
       });
 
-      const position = { x: 200, y: 200 };
       count++;
 
       SnakeHeadNew({
-        position,
         count,
         ctx,
         snakeBase,

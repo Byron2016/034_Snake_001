@@ -8,21 +8,30 @@ import type {
 
 export function SnakeHeadNew({
   drawHead,
-  position,
   ctx,
   count,
   snakeBase,
   handleSnakeBaseValues,
 }: SnakeHeadProps) {
-  function draw(
-    position: Position,
-    ctx: CanvasRenderingContext2D,
-    rotation: number
-  ) {
+  function draw(ctx: CanvasRenderingContext2D, rotation: number) {
     //const delta = count % 800;
     //const newPosition = { x: position.x + delta, y: position.y };
 
     //position = { x: position.x + delta, y: position.y };
+
+    //console.log(`draw - newPosition: ${position.x} - ${position.y}`);
+
+    // snakes' translations.
+    const newPosition: Position = {
+      x: snakeBase.position.x + Math.cos(rotation) * snakeBase.velocity,
+      y: snakeBase.position.y + Math.sin(rotation) * snakeBase.velocity,
+    };
+
+    const newSnakeBase = { ...snakeBase };
+    newSnakeBase.position = newPosition;
+    handleSnakeBaseValues(newSnakeBase);
+
+    //console.log(`draw - newPosition: ${position.x} - ${position.y} -- rotation: ${rotation}`);
 
     //#region Eyes
     //#region Eye-des-vars
@@ -41,10 +50,11 @@ export function SnakeHeadNew({
       desp_y: -8,
       radio: -9,
     };
+
     //#endregion Eye-des-vars
 
     const eyeOne: EyeCommonProperties = {
-      position,
+      position: newSnakeBase.position,
       radio: 11,
       desp_sclera: desp_sclera,
       desp_iris: desp_iris,
@@ -68,7 +78,7 @@ export function SnakeHeadNew({
     desp_pupil = { ...desp_pupil, desp_y: -desp_pupil.desp_y };
 
     const eyeTwo: EyeCommonProperties = {
-      position,
+      position: snakeBase.position,
       radio: 11,
       desp_sclera: desp_sclera,
       desp_iris: desp_iris,
@@ -88,29 +98,16 @@ export function SnakeHeadNew({
     };
     //#endregion Eyes
 
-    //console.log(`draw - newPosition: ${position.x} - ${position.y}`);
-
-    position = {
-      x: position.x + 0 + Math.cos(rotation) * 1.5,
-      y: position.x + 0 + Math.sin(rotation) * 1.5,
-    };
-    // const newPosition = {
-    //   ...position,
-    //   x: position.x + Math.cos(rotation) * 1.5,
-    //   y: position.x + Math.sin(rotation) * 1.5,
-    // };
-    //console.log(`draw - newPosition: ${position.x} - ${position.y} -- rotation: ${rotation}`);
-
     ctx.save();
 
     // Rotación
-    ctx.translate(position.x, position.y);
+    ctx.translate(snakeBase.position.x, snakeBase.position.y);
     //ctx.rotate(70 * (Math.PI / 180));
     ctx.rotate(snakeBase.rotation);
-    ctx.translate(-position.x, -position.y);
+    ctx.translate(-snakeBase.position.x, -snakeBase.position.y);
 
     drawHead({
-      position,
+      position: snakeBase.position,
       radio: 11,
       color: "yellow",
       ctx,
@@ -125,15 +122,7 @@ export function SnakeHeadNew({
   }
 
   function updateSnake(ctx: CanvasRenderingContext2D, rotation: number) {
-    const newPosition = {
-      ...position,
-      x: position.x + Math.cos(rotation) * 1.5,
-      y: position.x + Math.sin(rotation) * 1.5,
-    };
-    //console.log(`newPosition: ${newPosition.x} - ${newPosition.y}`);
-    //position.x = position.x + Math.cos(rotation);
-
-    draw(newPosition, ctx, rotation);
+    draw(ctx, rotation);
 
     //Rotation
     const rotationAngle = 0.04;

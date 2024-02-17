@@ -1,10 +1,8 @@
+// Utils
 import drawCircle from "./drawCircle";
 
 // types
 import type { DrawHead, DrawEye } from "../type/type";
-
-// eyeOne,
-// eyeTwo,
 
 export function drawHead({
   position, //headPosition

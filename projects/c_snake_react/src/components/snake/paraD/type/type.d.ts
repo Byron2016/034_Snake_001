@@ -97,7 +97,6 @@ export type drawHead = ({
 }: DrawHead) => void;
 
 export interface SnakeHeadProps extends ctx {
-  position: Position;
   count: number;
   snakeBase: SnakeBase;
   drawHead: drawHead;
