@@ -13,7 +13,9 @@ export function SnakeHeadNew({
   count,
   keys,
   rotation,
+  snakeBase,
   handleRotation,
+  handleSnakeBaseValues,
 }: SnakeHeadProps) {
   //const keys: KeysPressed = { key1: false, key2: false, enable: true };
 
@@ -109,7 +111,7 @@ export function SnakeHeadNew({
     // Rotación
     ctx.translate(position.x, position.y);
     //ctx.rotate(70 * (Math.PI / 180));
-    ctx.rotate(rotation);
+    ctx.rotate(snakeBase.rotation);
     ctx.translate(-position.x, -position.y);
 
     drawHead({
@@ -137,17 +139,20 @@ export function SnakeHeadNew({
     //position.x = position.x + Math.cos(rotation);
 
     draw(newPosition, ctx, rotation);
+
     //Rotation
     const rotationAngle = 0.04;
 
-    if (keys.key1 && keys.enable) {
+    if (snakeBase.keys.key1 && snakeBase.keys.enable) {
       // console.log("Entro a rotación");
-      rotation = rotation - rotationAngle;
-      handleRotation({ rotationValue: rotation });
+      const newSnakeBase = { ...snakeBase };
+      newSnakeBase.rotation = newSnakeBase.rotation - rotationAngle;
+      handleSnakeBaseValues(newSnakeBase);
     }
-    if (keys.key2 && keys.enable) {
-      rotation = rotation + rotationAngle;
-      handleRotation({ rotationValue: rotation });
+    if (snakeBase.keys.key2 && snakeBase.keys.enable) {
+      const newSnakeBase = { ...snakeBase };
+      newSnakeBase.rotation = newSnakeBase.rotation + rotationAngle;
+      handleSnakeBaseValues(newSnakeBase);
     }
   }
 

@@ -5,6 +5,7 @@ import type {
   SnakeBackgroundProps,
   KeysPressed,
   handleRotation,
+  SnakeBase,
 } from "../type/type";
 
 // Utils
@@ -19,6 +20,12 @@ export function useSnake({
   color,
 }: SnakeBackgroundProps) {
   const [laRotation, setLaRotation] = useState<number>(0);
+  const [snakeBase, setSnakeBase] = useState<SnakeBase>({
+    position: { x: 100, y: 200 },
+    velocity: 1.5,
+    rotation: 0,
+    keys: { key1: false, key2: false, enable: true },
+  });
 
   const refCanvas = useRef<HTMLCanvasElement | null>(null);
   //let ctx: CanvasRenderingContext2D | null;
@@ -26,6 +33,10 @@ export function useSnake({
   const handleRotation = ({ rotationValue }: handleRotation) => {
     setLaRotation(rotationValue);
     //console.log(`Rotacion en handleRotation: oldRotation: ${laRotation} newRotation: ${rotationValue}`);
+  };
+
+  const handleSnakeBaseValues = (newSnakeBase: SnakeBase) => {
+    setSnakeBase(newSnakeBase);
   };
 
   useEffect(() => {
@@ -45,38 +56,43 @@ export function useSnake({
 
     //eventos
     //#region eventos
-    const keys: KeysPressed = { key1: false, key2: false, enable: true };
 
+    const keys = { key1: false, key2: false, enable: true };
     //eventos key down
     const handlekeyDown = (evt: KeyboardEvent) => {
+      const newSnakeBase = { ...snakeBase };
       if (evt.key == "a" || evt.key == "A") {
         //console.log("key pressed");
-        keys.key1 = true;
+        newSnakeBase.keys.key1 = true;
       }
 
       if (evt.key == "d" || evt.key == "D") {
         //console.log("key pressed");
-        keys.key2 = true;
+        newSnakeBase.keys.key2 = true;
       }
+      handleSnakeBaseValues(newSnakeBase);
     };
 
     //eventos key up
     const handlekeyUP = (evt: KeyboardEvent) => {
+      const newSnakeBase = { ...snakeBase };
       if (evt.key == "a" || evt.key == "A") {
         //console.log("key unpressed");
-        keys.key1 = false;
+        newSnakeBase.keys.key1 = false;
       }
 
       if (evt.key == "d" || evt.key == "D") {
         //console.log("key unpressed");
-        keys.key2 = false;
+        newSnakeBase.keys.key2 = false;
       }
+      handleSnakeBaseValues(newSnakeBase);
     };
-    //#endregion eventos
 
     //eventos crear listeners
     document.addEventListener("keydown", handlekeyDown);
     document.addEventListener("keyup", handlekeyUP);
+
+    //#endregion eventos
 
     let count = 0;
     let animationID: number;
@@ -98,7 +114,9 @@ export function useSnake({
         count,
         keys,
         rotation: laRotation,
+        snakeBase,
         handleRotation,
+        handleSnakeBaseValues,
       });
 
       animationID = requestAnimationFrame(render);
@@ -113,8 +131,16 @@ export function useSnake({
 
       cancelAnimationFrame(animationID);
     };
-  }, [drawBackground, drawHead, width, height, color, handleRotation]);
-
+  }, [handleSnakeBaseValues]);
+  /*
+  drawBackground,
+    drawHead,
+    width,
+    height,
+    color,
+    handleRotation,
+    snakeBase,
+  */
   //React Hook useEffect has missing dependencies:
   //'color', 'handleRotation', 'height', 'laRotation', and 'width'.
 

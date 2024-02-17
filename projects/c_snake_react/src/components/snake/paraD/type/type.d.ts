@@ -9,6 +9,14 @@ export interface KeysPressed {
   enable: boolean;
 }
 
+// snake's properties that change.
+export interface SnakeBase {
+  position: Position;
+  velocity: number;
+  rotation: number;
+  keys: KeysPressed;
+}
+
 export interface SnakeProps {
   position: Position;
   radio: number;
@@ -93,11 +101,14 @@ export interface SnakeHeadProps extends ctx {
   count: number;
   keys: KeysPressed;
   rotation: number;
+  snakeBase: SnakeBase;
   drawHead: drawHead;
   handleRotation: HandleRotation;
+  handleSnakeBaseValues: HandleSnakeBaseValues;
 }
 
 export type HandleRotation = ({ rotationValue }: handleRotation) => void;
+export type HandleSnakeBaseValues = ({ newSnakeBase }: SnakeBase) => void;
 
 export interface handleRotation {
   rotationValue: number;
