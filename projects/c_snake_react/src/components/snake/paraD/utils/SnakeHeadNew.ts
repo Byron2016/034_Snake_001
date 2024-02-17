@@ -3,7 +3,6 @@ import type {
   SnakeHeadProps,
   EyeCommonProperties,
   EyesDesp,
-  KeysPressed,
 } from "../type/type";
 
 export function SnakeHeadNew({
@@ -88,9 +87,6 @@ export function SnakeHeadNew({
     ctx.save();
 
     // Rotación
-    // if (rotation) {
-    //   console.log(`Rotacion en draw: ${rotation}`);
-    // }
     ctx.translate(position.x, position.y);
     //ctx.rotate(70 * (Math.PI / 180));
     ctx.rotate(rotation);
@@ -111,24 +107,23 @@ export function SnakeHeadNew({
     ctx.restore();
   }
 
-  function update(ctx: CanvasRenderingContext2D, rotation: number) {
+  function updateSnake(ctx: CanvasRenderingContext2D, rotation: number) {
+    draw(ctx, rotation);
     //Rotation
     const rotationAngle = 0.04;
 
     if (keys.key1 && keys.enable) {
       // console.log("Entro a rotación");
       rotation = rotation - rotationAngle;
-      handleRotation({ newRotation: rotation });
+      handleRotation({ rotationValue: rotation });
     }
     if (keys.key2 && keys.enable) {
       rotation = rotation + rotationAngle;
-      handleRotation({ newRotation: rotation });
+      handleRotation({ rotationValue: rotation });
     }
 
-    //console.log(rotation);
-
-    draw(ctx, rotation);
+    //position.x = position.x + Math.cos(rotation);
   }
 
-  update(ctx, rotation);
+  updateSnake(ctx, rotation);
 }

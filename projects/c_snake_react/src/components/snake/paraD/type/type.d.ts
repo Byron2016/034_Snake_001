@@ -97,7 +97,11 @@ export interface SnakeHeadProps extends ctx {
   handleRotation: HandleRotation;
 }
 
-export type HandleRotation = ({ newRotation: number }) => void;
+export type HandleRotation = ({ rotationValue }: handleRotation) => void;
+
+export interface handleRotation {
+  rotationValue: number;
+}
 
 export interface DrawEye extends ctx, EyeCommonProperties {}
 

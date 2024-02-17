@@ -1,7 +1,11 @@
 import { useRef, useEffect, useState } from "react";
 
 // types
-import type { SnakeBackgroundProps, KeysPressed } from "../type/type";
+import type {
+  SnakeBackgroundProps,
+  KeysPressed,
+  handleRotation,
+} from "../type/type";
 
 // Utils
 import { SnakeHeadNew } from "../utils/SnakeHeadNew";
@@ -19,15 +23,10 @@ export function useSnake({
   const refCanvas = useRef<HTMLCanvasElement | null>(null);
   //let ctx: CanvasRenderingContext2D | null;
 
-  const handleRotation = ({ newRotation }: { newRotation: number }) => {
-    setLaRotation(newRotation);
-    //console.log(`Rotacion en handleRotation: oldRotation: ${laRotation} newRotation: ${newRotation}`);
+  const handleRotation = ({ rotationValue }: handleRotation) => {
+    setLaRotation(rotationValue);
+    //console.log(`Rotacion en handleRotation: oldRotation: ${laRotation} newRotation: ${rotationValue}`);
   };
-
-  // useEffect(() => {
-  //   console.log("useEffect 1 SE EJECUTÓ");
-
-  // }, []);
 
   useEffect(() => {
     //console.log("useEffect 2 SE EJECUTÓ");
@@ -35,7 +34,7 @@ export function useSnake({
     const canvas = refCanvas.current! as HTMLCanvasElement;
     if (!canvas) return;
     const ctx: CanvasRenderingContext2D = canvas.getContext("2d")!;
-    //if (!ctx) return;
+
     if (!ctx || !(ctx instanceof CanvasRenderingContext2D)) {
       //throw new Error('Failed to get 2D context');
       return;
@@ -46,20 +45,17 @@ export function useSnake({
 
     //eventos
     //#region eventos
-
     const keys: KeysPressed = { key1: false, key2: false, enable: true };
 
     //eventos key down
     const handlekeyDown = (evt: KeyboardEvent) => {
       if (evt.key == "a" || evt.key == "A") {
         //console.log("key pressed");
-        // const newSnake: SnakeProps = { ...snake };
         keys.key1 = true;
       }
 
       if (evt.key == "d" || evt.key == "D") {
         //console.log("key pressed");
-        // const newSnake: SnakeProps = { ...snake };
         keys.key2 = true;
       }
     };
@@ -68,23 +64,20 @@ export function useSnake({
     const handlekeyUP = (evt: KeyboardEvent) => {
       if (evt.key == "a" || evt.key == "A") {
         //console.log("key unpressed");
-        // const newSnake: SnakeProps = { ...snake };
         keys.key1 = false;
       }
 
       if (evt.key == "d" || evt.key == "D") {
         //console.log("key unpressed");
-        // const newSnake: SnakeProps = { ...snake };
         keys.key2 = false;
       }
     };
-
-    // crear listeners
-    document.addEventListener("keydown", handlekeyDown);
-    document.addEventListener("keyup", handlekeyUP);
     //#endregion eventos
 
-    //let rotation = 0;
+    //eventos crear listeners
+    document.addEventListener("keydown", handlekeyDown);
+    document.addEventListener("keyup", handlekeyUP);
+
     let count = 0;
     let animationID: number;
     function render() {
@@ -114,7 +107,7 @@ export function useSnake({
     render();
 
     return () => {
-      // destruír listeners
+      //eventos  destruír listeners
       document.removeEventListener("keydown", handlekeyDown);
       document.removeEventListener("keyup", handlekeyUP);
 
