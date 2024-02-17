@@ -13,7 +13,9 @@ export interface KeysPressed {
 export interface SnakeBase {
   position: Position;
   velocity: number;
+  radio: number;
   rotation: number;
+  allowTraslation: boolean;
   keys: KeysPressed;
 }
 

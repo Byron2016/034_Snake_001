@@ -5,7 +5,9 @@ import type { SnakeBackgroundProps, SnakeBase } from "../type/type";
 
 // Utils
 import { SnakeHeadNew } from "../utils/SnakeHeadNew";
-//import { drawHead } from "../utils/drawHead"; //1
+
+// constants
+import { SNAKE_BASE_PROPERTIES } from "../constants/constants";
 
 export function useSnake({
   drawBackground,
@@ -15,9 +17,11 @@ export function useSnake({
   color,
 }: SnakeBackgroundProps) {
   const [snakeBase, setSnakeBase] = useState<SnakeBase>({
-    position: { x: 50, y: 50 },
-    velocity: 0.05,
-    rotation: 0,
+    position: SNAKE_BASE_PROPERTIES.SNAKE_POSITION,
+    velocity: SNAKE_BASE_PROPERTIES.SNAKE_VELOCITY,
+    radio: SNAKE_BASE_PROPERTIES.SNAKE_HEAD_RADIO,
+    rotation: SNAKE_BASE_PROPERTIES.SNAKE_INITIAL_ROTATION,
+    allowTraslation: SNAKE_BASE_PROPERTIES.SNAKE_IS_TRASLATE,
     keys: { key1: false, key2: false, enable: true },
   });
 
@@ -45,8 +49,6 @@ export function useSnake({
 
     //eventos
     //#region eventos
-
-    const keys = { key1: false, key2: false, enable: true };
     //eventos key down
     const handlekeyDown = (evt: KeyboardEvent) => {
       const newSnakeBase = { ...snakeBase };
