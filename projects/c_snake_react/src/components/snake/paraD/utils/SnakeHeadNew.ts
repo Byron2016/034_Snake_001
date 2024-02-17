@@ -3,7 +3,7 @@ import type {
   SnakeHeadProps,
   EyeCommonProperties,
   EyesDesp,
-  Positon,
+  Position,
 } from "../type/type";
 
 export function SnakeHeadNew({
@@ -11,16 +11,11 @@ export function SnakeHeadNew({
   position,
   ctx,
   count,
-  keys,
-  rotation,
   snakeBase,
-  handleRotation,
   handleSnakeBaseValues,
 }: SnakeHeadProps) {
-  //const keys: KeysPressed = { key1: false, key2: false, enable: true };
-
   function draw(
-    position: Positon,
+    position: Position,
     ctx: CanvasRenderingContext2D,
     rotation: number
   ) {
@@ -156,5 +151,5 @@ export function SnakeHeadNew({
     }
   }
 
-  updateSnake(ctx, rotation);
+  updateSnake(ctx, snakeBase.rotation);
 }

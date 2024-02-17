@@ -1,12 +1,7 @@
 import { useRef, useEffect, useState } from "react";
 
 // types
-import type {
-  SnakeBackgroundProps,
-  KeysPressed,
-  handleRotation,
-  SnakeBase,
-} from "../type/type";
+import type { SnakeBackgroundProps, SnakeBase } from "../type/type";
 
 // Utils
 import { SnakeHeadNew } from "../utils/SnakeHeadNew";
@@ -19,7 +14,6 @@ export function useSnake({
   height,
   color,
 }: SnakeBackgroundProps) {
-  const [laRotation, setLaRotation] = useState<number>(0);
   const [snakeBase, setSnakeBase] = useState<SnakeBase>({
     position: { x: 100, y: 200 },
     velocity: 1.5,
@@ -29,11 +23,6 @@ export function useSnake({
 
   const refCanvas = useRef<HTMLCanvasElement | null>(null);
   //let ctx: CanvasRenderingContext2D | null;
-
-  const handleRotation = ({ rotationValue }: handleRotation) => {
-    setLaRotation(rotationValue);
-    //console.log(`Rotacion en handleRotation: oldRotation: ${laRotation} newRotation: ${rotationValue}`);
-  };
 
   const handleSnakeBaseValues = (newSnakeBase: SnakeBase) => {
     setSnakeBase(newSnakeBase);
@@ -108,14 +97,11 @@ export function useSnake({
       count++;
 
       SnakeHeadNew({
-        drawHead,
         position,
-        ctx,
         count,
-        keys,
-        rotation: laRotation,
+        ctx,
         snakeBase,
-        handleRotation,
+        drawHead,
         handleSnakeBaseValues,
       });
 

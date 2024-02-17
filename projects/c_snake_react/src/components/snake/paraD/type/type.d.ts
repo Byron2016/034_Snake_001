@@ -99,11 +99,8 @@ export type drawHead = ({
 export interface SnakeHeadProps extends ctx {
   position: Position;
   count: number;
-  keys: KeysPressed;
-  rotation: number;
   snakeBase: SnakeBase;
   drawHead: drawHead;
-  handleRotation: HandleRotation;
   handleSnakeBaseValues: HandleSnakeBaseValues;
 }
 
