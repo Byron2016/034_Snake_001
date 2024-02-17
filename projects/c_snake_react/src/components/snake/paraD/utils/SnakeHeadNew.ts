@@ -6,6 +6,9 @@ import type {
   Position,
 } from "../type/type";
 
+// constants
+import { SNAKE_HEAD_PROPERTIES } from "../constants/constants";
+
 export function SnakeHeadNew({
   drawHead,
   ctx,
@@ -55,22 +58,24 @@ export function SnakeHeadNew({
 
     const eyeOne: EyeCommonProperties = {
       position: newSnakeBase.position,
-      radio: 11,
+      radio: snakeBase.radio,
       desp_sclera: desp_sclera,
       desp_iris: desp_iris,
       desp_pupil: desp_pupil,
 
-      scleraColor: "white",
-      irisColor: "black",
-      pupilColor: "white",
+      scleraColor: SNAKE_HEAD_PROPERTIES.SNAKE_EYE_ONE_SCLERA_COLOR,
+      irisColor: SNAKE_HEAD_PROPERTIES.SNAKE_EYE_ONE_IRIS_COLOR,
+      pupilColor: SNAKE_HEAD_PROPERTIES.SNAKE_EYE_ONE_PUPIL_COLOR,
 
-      scleraShadowColor: "transparent",
-      irisShadowColor: "transparent",
-      pupilShadowColor: "transparent",
+      scleraShadowColor:
+        SNAKE_HEAD_PROPERTIES.SNAKE_EYE_ONE_SCLERA_SHADOW_COLOR,
+      irisShadowColor: SNAKE_HEAD_PROPERTIES.SNAKE_EYE_ONE_IRIS_SHADOW_COLOR,
+      pupilShadowColor: SNAKE_HEAD_PROPERTIES.SNAKE_EYE_ONE_PUPIL_SHADOW_COLOR,
 
-      scleraTransparency: 1,
-      irisTransparency: 1,
-      pupilTransparency: 1,
+      scleraTransparency:
+        SNAKE_HEAD_PROPERTIES.SNAKE_EYE_ONE_SCLERA_TRANSPARENCY,
+      irisTransparency: SNAKE_HEAD_PROPERTIES.SNAKE_EYE_ONE_IRIS_TRANSPARENCY,
+      pupilTransparency: SNAKE_HEAD_PROPERTIES.SNAKE_EYE_ONE_PUPIL_TRANSPARENCY,
     };
 
     desp_sclera = { ...desp_sclera, desp_y: -desp_sclera.desp_y };
@@ -79,22 +84,24 @@ export function SnakeHeadNew({
 
     const eyeTwo: EyeCommonProperties = {
       position: snakeBase.position,
-      radio: 11,
+      radio: snakeBase.radio,
       desp_sclera: desp_sclera,
       desp_iris: desp_iris,
       desp_pupil: desp_pupil,
 
-      scleraColor: "white",
-      irisColor: "black",
-      pupilColor: "white",
+      scleraColor: SNAKE_HEAD_PROPERTIES.SNAKE_EYE_TWO_SCLERA_COLOR,
+      irisColor: SNAKE_HEAD_PROPERTIES.SNAKE_EYE_TWO_IRIS_COLOR,
+      pupilColor: SNAKE_HEAD_PROPERTIES.SNAKE_EYE_TWO_PUPIL_COLOR,
 
-      scleraShadowColor: "transparent",
-      irisShadowColor: "transparent",
-      pupilShadowColor: "transparent",
+      scleraShadowColor:
+        SNAKE_HEAD_PROPERTIES.SNAKE_EYE_TWO_SCLERA_SHADOW_COLOR,
+      irisShadowColor: SNAKE_HEAD_PROPERTIES.SNAKE_EYE_TWO_IRIS_SHADOW_COLOR,
+      pupilShadowColor: SNAKE_HEAD_PROPERTIES.SNAKE_EYE_TWO_PUPIL_SHADOW_COLOR,
 
-      scleraTransparency: 1,
-      irisTransparency: 1,
-      pupilTransparency: 1,
+      scleraTransparency:
+        SNAKE_HEAD_PROPERTIES.SNAKE_EYE_TWO_SCLERA_TRANSPARENCY,
+      irisTransparency: SNAKE_HEAD_PROPERTIES.SNAKE_EYE_TWO_IRIS_TRANSPARENCY,
+      pupilTransparency: SNAKE_HEAD_PROPERTIES.SNAKE_EYE_TWO_PUPIL_TRANSPARENCY,
     };
     //#endregion Eyes
 
@@ -108,11 +115,11 @@ export function SnakeHeadNew({
 
     drawHead({
       position: snakeBase.position,
-      radio: 11,
-      color: "yellow",
+      radio: snakeBase.radio,
+      color: SNAKE_HEAD_PROPERTIES.SNAKE_HEAD_COLR,
       ctx,
-      transparency: 1,
-      shadowColor: "blue",
+      transparency: SNAKE_HEAD_PROPERTIES.SNAKE_HEAD_TRANSPARENCY,
+      shadowColor: SNAKE_HEAD_PROPERTIES.SNAKE_HEAD_SHADOW_COLOR,
       count,
       eyeOne,
       eyeTwo,
