@@ -1,0 +1,63 @@
+// {
+//   // Use IntelliSense to learn about possible attributes.
+//   // Hover to view descriptions of existing attributes.
+//   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+//   "version": "0.2.0",
+//   "configurations": [
+//     {
+//       "type": "chrome",
+//       "request": "launch",
+//       "name": "Launch Chrome against localhost",
+//       "url": "http://localhost:8080",
+//       "webRoot": "${workspaceFolder}"
+//     }
+//   ]
+// }
+// NexJS
+// {
+//   "version": "0.2.0",
+//   "configurations": [
+//     {
+//       "name": "Next.js: debug server-side",
+//       "type": "node-terminal",
+//       "request": "launch",
+//       "command": "npm run dev"
+//     },
+//     {
+//       "name": "React.js: debug client-side",
+//       "type": "chrome",
+//       "request": "launch",
+//       "url": "http://localhost:3000"
+//     },
+//     {
+//       "name": "Reacj.js: debug full stack",
+//       "type": "node-terminal",
+//       "request": "launch",
+//       "command": "npm run dev",
+//       "serverReadyAction": {
+//         "pattern": "started server on .+, url: (https?://.+)",
+//         "uriFormat": "%s",
+//         "action": "debugWithChrome"
+//       }
+//     }
+//   ]
+// }
+
+// Astro
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "command": "clear && ls && cd .\\projects\\b_snake_astro_react\\ && pnpm dev",
+      "name": "Development server",
+      "request": "launch",
+      "type": "node-terminal"
+    },
+    {
+      "command": "pnpm build",
+      "name": "Build",
+      "request": "launch",
+      "type": "node-terminal"
+    }
+  ]
+}
