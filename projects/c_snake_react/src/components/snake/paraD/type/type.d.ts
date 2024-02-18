@@ -98,6 +98,11 @@ export type drawHead = ({
   ctx,
 }: DrawHead) => void;
 
+export interface SnakeBaseContextType {
+  asnakeBase: SnakeBase;
+  saveSnakeBase: (newSnakeBase: SnakeBase) => void;
+}
+
 export interface SnakeHeadProps extends ctx {
   count: number;
   snakeBase: SnakeBase;

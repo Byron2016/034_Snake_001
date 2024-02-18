@@ -1,13 +1,20 @@
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useContext, useState } from "react";
 
 // types
-import type { SnakeBackgroundProps, SnakeBase } from "../type/type";
+import type {
+  SnakeBackgroundProps,
+  SnakeBase,
+  SnakeBaseContextType,
+} from "../type/type";
+
+// constants
+import { SNAKE_BASE_PROPERTIES } from "../constants/constants";
 
 // Utils
 import { SnakeHeadNew } from "../utils/SnakeHeadNew";
 
-// constants
-import { SNAKE_BASE_PROPERTIES } from "../constants/constants";
+// context
+import { SnakeContext } from "../context/snakeFilters";
 
 export function useSnake({
   drawBackground,
@@ -16,20 +23,32 @@ export function useSnake({
   height,
   color,
 }: SnakeBackgroundProps) {
-  const [snakeBase, setSnakeBase] = useState<SnakeBase>({
-    position: SNAKE_BASE_PROPERTIES.SNAKE_POSITION,
-    velocity: SNAKE_BASE_PROPERTIES.SNAKE_VELOCITY,
-    radio: SNAKE_BASE_PROPERTIES.SNAKE_HEAD_RADIO,
-    rotation: SNAKE_BASE_PROPERTIES.SNAKE_INITIAL_ROTATION,
-    allowTraslation: SNAKE_BASE_PROPERTIES.SNAKE_IS_TRASLATE,
-    keys: { key1: false, key2: false, enable: true },
-  });
+  // const [snakeBase, setSnakeBase] = useState<SnakeBase>({
+  //   position: SNAKE_BASE_PROPERTIES.SNAKE_POSITION,
+  //   velocity: SNAKE_BASE_PROPERTIES.SNAKE_VELOCITY,
+  //   radio: SNAKE_BASE_PROPERTIES.SNAKE_HEAD_RADIO,
+  //   rotation: SNAKE_BASE_PROPERTIES.SNAKE_INITIAL_ROTATION,
+  //   allowTraslation: SNAKE_BASE_PROPERTIES.SNAKE_IS_TRASLATE,
+  //   keys: { key1: false, key2: false, enable: true },
+  // });
 
   const refCanvas = useRef<HTMLCanvasElement | null>(null);
-  //let ctx: CanvasRenderingContext2D | null;
+
+  const { asnakeBase, saveSnakeBase } = useContext(
+    SnakeContext
+  ) as SnakeBaseContextType;
+
+  //console.log(`useSnake - asnakeBase: ${JSON.stringify(asnakeBase)}`);
+
+  // if (!asnakeBase) {
+  //   return;
+  // }
+
+  const snakeBase = { ...asnakeBase };
 
   const handleSnakeBaseValues = (newSnakeBase: SnakeBase) => {
-    setSnakeBase(newSnakeBase);
+    //setSnakeBase(newSnakeBase);
+    saveSnakeBase(newSnakeBase);
   };
 
   useEffect(() => {

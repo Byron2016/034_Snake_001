@@ -14,6 +14,8 @@ import Snake from "./Snake";
 import drawBackground from "./utils/background";
 import { drawHead } from "./utils/drawHead"; //1
 
+import { SnakeProvider } from "./context/snakeFilters";
+
 const ContenedorPrincipal = ({
   width,
   height,
@@ -57,7 +59,9 @@ const ContenedorPrincipal = ({
       />
       <span>{textPause}</span>
 
-      <Snake {...snake} />
+      <SnakeProvider>
+        <Snake {...snake} />
+      </SnakeProvider>
     </>
   );
 };
