@@ -25,11 +25,17 @@ function App () {
   const [gameOver, setGameOver] = useState(false)
 
   const startGame = () => {
-    console.log('startGame')
+    // console.log('startGame')
+    setSnake(SNAKE_START)
+    setApple(APPLE_START)
+    setDir([0, -1])
+    setSpeed(SPEED)
+    setGameOver(false)
   }
 
   const endGame = () => {
-
+    setSpeed(null)
+    setGameOver(true)
   }
 
   const moveSnake = ({ keyCode }) => {
