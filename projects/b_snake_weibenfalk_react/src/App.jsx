@@ -45,7 +45,11 @@ function App () {
   }
 
   const createApple = () => {
+    const newApple = apple.map((_, i) => {
+      return Math.floor(Math.random() * (CANVAS_SIZE[i]) / SCALE)
+    })
 
+    return newApple
   }
 
   const checkCollision = (piece, snk = snake) => {
@@ -63,8 +67,19 @@ function App () {
     return false
   }
 
-  const checkappleCollision = () => {
+  const checkAppleCollision = (newSnake) => {
+    if (
+      newSnake[0][0] === apple[0] && newSnake[0][1] === apple[1]
+    ) {
+      let newApple = createApple()
+      while (checkCollision(newApple, newSnake)) {
+        newApple = createApple() // 41.59
+      }
+      setApple(newApple)
+      return true
+    }
 
+    return false
   }
 
   const gameLoop = () => {
@@ -77,8 +92,7 @@ function App () {
     IS_DEVELOPMENT && GAME_LOOP_CONSOL && console.log(`gameloop - snakeCopy unshift: ${snakeCopy}`)
 
     if (checkCollision(newSnakeHead)) endGame()
-
-    snakeCopy.pop()
+    if (!checkAppleCollision(snakeCopy)) snakeCopy.pop()
     setSnake(snakeCopy)
   }
 
