@@ -20,5 +20,10 @@
     "url": "https://github.com/Byron2016/034_Snake_001/issues"
   },
   "homepage": "",
-  "devDependencies": {}
+  "devDependencies": {
+    "standard": "^17.1.0"
+  },
+  "eslintConfig": {
+    "extends": "./node_modules/standard/eslintrc.json"
+  }
 }
