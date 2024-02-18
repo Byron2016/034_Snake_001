@@ -1,4 +1,4 @@
-import { useRef, useEffect, useContext, useState } from "react";
+import { useRef, useEffect, useContext } from "react";
 
 // types
 import type {
@@ -8,7 +8,7 @@ import type {
 } from "../type/type";
 
 // constants
-import { SNAKE_BASE_PROPERTIES } from "../constants/constants";
+//import { SNAKE_BASE_PROPERTIES } from "../constants/constants";
 
 // Utils
 import { SnakeHeadNew } from "../utils/SnakeHeadNew";
@@ -48,7 +48,7 @@ export function useSnake({
 
   const handleSnakeBaseValues = (newSnakeBase: SnakeBase) => {
     //setSnakeBase(newSnakeBase);
-    saveSnakeBase(newSnakeBase);
+    //saveSnakeBase(newSnakeBase);
   };
 
   useEffect(() => {
