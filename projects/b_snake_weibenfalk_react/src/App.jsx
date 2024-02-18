@@ -28,7 +28,7 @@ function App () {
     // console.log('startGame')
     setSnake(SNAKE_START)
     setApple(APPLE_START)
-    setDir([0, -1])
+    setDir([1, 0])
     setSpeed(SPEED)
     setGameOver(false)
   }
@@ -48,8 +48,15 @@ function App () {
 
   }
 
-  const checkCollision = () => {
+  const checkCollision = (piece, snk = snake) => {
+    if (
+      piece[0] * SCALE >= CANVAS_SIZE[0] ||
+      piece[0] < 0 ||
+      piece[1] * SCALE >= CANVAS_SIZE[1] ||
+      piece[1] < 0
+    ) { return true }
 
+    return false
   }
 
   const checkappleCollision = () => {
@@ -64,6 +71,9 @@ function App () {
     IS_DEVELOPMENT && GAME_LOOP_CONSOL && console.log(`gameloop - newSnakeHead: ${snake}`)
     snakeCopy.unshift(newSnakeHead)
     IS_DEVELOPMENT && GAME_LOOP_CONSOL && console.log(`gameloop - snakeCopy unshift: ${snakeCopy}`)
+
+    if (checkCollision(newSnakeHead)) endGame()
+
     snakeCopy.pop()
     setSnake(snakeCopy)
   }
