@@ -12,8 +12,13 @@ import {
   APPLE_START,
   SCALE,
   SPEED,
-  DIRECTIONS
+  DIRECTIONS,
+  COLOR_BACKGROUND
 } from './constants/constants'
+
+//components
+import {drawBackground} from "./components/Background/drawBackground"
+
 import { GAME_LOOP_CONSOL, IS_DEVELOPMENT } from './config'
 
 function App () {
@@ -100,8 +105,13 @@ function App () {
     // It is will triggered when change: snake, apple, gameOver
     const canvas = canvasRef.current
     const context = canvas.getContext('2d')
-    context.setTransform(SCALE, 0, 0, SCALE, 0, 0)
+
+    context.setTransform(1, 0, 0, 1, 0, 0)
     context.clearRect(0, 0, CANVAS_SIZE[0], CANVAS_SIZE[1])
+    drawBackground({color:COLOR_BACKGROUND[0], ctx:context})
+
+    context.setTransform(SCALE, 0, 0, SCALE, 0, 0)
+    //context.clearRect(0, 0, CANVAS_SIZE[0], CANVAS_SIZE[1])
     context.fillStyle = 'pink'
     snake.forEach(([x, y]) => context.fillRect(x, y, 1, 1))
     context.fillStyle = 'lightblue'
