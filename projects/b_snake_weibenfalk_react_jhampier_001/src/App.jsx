@@ -18,9 +18,10 @@ import {
 
 //components
 import {drawBackground} from "./components/Background/drawBackground"
+import { drawHead } from './components/Snake/drawHead'
+import { EyesToDraw } from './components/Snake/drawEyes'
 
 import { GAME_LOOP_CONSOL, IS_DEVELOPMENT } from './config'
-import { drawHead } from './components/Snake/drawHead'
 
 function App () {
   const canvasRef = useRef(null)
@@ -115,9 +116,16 @@ function App () {
     // Head
     context.setTransform(SCALE, 0, 0, SCALE, 0, 0)
     drawHead({position:{x:snake[0][0],y:snake[0][1]}, ctx:context})
+
+    // Eyes
+    EyesToDraw({
+      eye_one_position:{x:snake[0][0],y:snake[0][1]},
+      eye_two_position:{x:snake[0][0],y:snake[0][1]},
+      ctx:context})
+
     //context.clearRect(0, 0, CANVAS_SIZE[0], CANVAS_SIZE[1])
-    context.fillStyle = 'pink'
-    snake.forEach(([x, y]) => context.fillRect(x, y, 1, 1))
+    //context.fillStyle = 'pink'
+    //snake.forEach(([x, y]) => context.fillRect(x, y, 1, 1))
     context.fillStyle = 'lightblue'
     context.fillRect(apple[0], apple[1], 1, 1)
   }, [snake, apple, gameOver])
