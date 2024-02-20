@@ -37,7 +37,7 @@ function App () {
     // console.log('startGame')
     setSnake(SNAKE_START)
     setApple(APPLE_START)
-    setDir([1, 0])
+    setDir([0, -1])
     setSpeed(SPEED)
     setGameOver(false)
   }
@@ -48,7 +48,7 @@ function App () {
   }
 
   const moveSnake = ({ keyCode }) => {
-    console.log('moveSnake')
+    //console.log('moveSnake')
     // to ensure that you only press arrow keys on the keyboard
     keyCode >= 37 && keyCode <= 40 && setDir(DIRECTIONS[keyCode])
   }
@@ -130,10 +130,10 @@ function App () {
     EyesToDraw({
       eye_one_position:{x:snake[0][0],y:snake[0][1]},
       eye_two_position:{x:snake[0][0],y:snake[0][1]},
-      ctx:context})
+      ctx:context, dir})
 
-    // // Apple
-    // drawApple({position:{x:apple[0],y:apple[1]}, ctx:context})
+    // Apple
+    drawApple({position:{x:apple[0],y:apple[1]}, ctx:context})
 
 
 
@@ -142,7 +142,7 @@ function App () {
     //snake.forEach(([x, y]) => context.fillRect(x, y, 1, 1))
     //context.fillStyle = 'lightblue'
     //context.fillRect(apple[0], apple[1], 1, 1)
-  }, [snake, apple, gameOver])
+  }, [snake, apple, gameOver, dir])
 
   useInterval(() => gameLoop(), speed)
 
