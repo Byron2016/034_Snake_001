@@ -23,6 +23,7 @@ import { EyesToDraw } from './components/Snake/drawEyes'
 import { drawApple } from './components/Apple/drawApple'
 
 import { GAME_LOOP_CONSOL, IS_DEVELOPMENT } from './config'
+import { drawBody } from './components/Snake/drawBody'
 
 function App () {
   const canvasRef = useRef(null)
@@ -114,8 +115,15 @@ function App () {
     context.clearRect(0, 0, CANVAS_SIZE[0], CANVAS_SIZE[1])
     drawBackground({color:COLOR_BACKGROUND[0], ctx:context})
 
-    // Head
+    
     context.setTransform(SCALE, 0, 0, SCALE, 0, 0)
+
+    // Snake body 
+    snake.forEach(([x, y]) => {
+      drawBody({position:{x,y}, ctx:context})
+    });
+
+    // Head
     drawHead({position:{x:snake[0][0],y:snake[0][1]}, ctx:context})
 
     // Eyes
@@ -124,8 +132,10 @@ function App () {
       eye_two_position:{x:snake[0][0],y:snake[0][1]},
       ctx:context})
 
-    // Apple
-    drawApple({position:{x:apple[0],y:apple[1]}, ctx:context})
+    // // Apple
+    // drawApple({position:{x:apple[0],y:apple[1]}, ctx:context})
+
+
 
     //context.clearRect(0, 0, CANVAS_SIZE[0], CANVAS_SIZE[1])
     //context.fillStyle = 'pink'

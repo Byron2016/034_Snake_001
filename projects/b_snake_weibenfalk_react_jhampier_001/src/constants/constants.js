@@ -1,7 +1,7 @@
 const CANVAS_SIZE = [800, 800]
 const SNAKE_START = [
   [8, 10],
-  [8, 11]
+  [7, 10]
 ]
 const APPLE_START = [8, 3]
 const SCALE = 40
