@@ -9,11 +9,11 @@ export function drawApple({
   ctx,
 
 }) {
-  const radio = DRAW_APPLE.HEAD_RADIO;
-  const color = DRAW_APPLE.HEAD_COLOR;
-  const shadowColor = DRAW_APPLE.HEAD_SHADOW_COLOR;
-  const transparency = DRAW_APPLE.HEAD_TRANSPARENCY
-  const shadowBlur = DRAW_APPLE.HEAD_SHADOW_BLUR;
+  const radio = DRAW_APPLE.APPLE_RADIO;
+  const color = DRAW_APPLE.APPLE_COLOR;
+  const shadowColor = DRAW_APPLE.APPLE_SHADOW_COLOR;
+  const transparency = DRAW_APPLE.APPLE_TRANSPARENCY
+  const shadowBlur = DRAW_APPLE.APPLE_SHADOW_BLUR;
   drawCircle({
     position,
     radio,
