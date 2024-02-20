@@ -1,0 +1,11 @@
+const DRAW_APPLE = {
+  HEAD_COLOR:"red",
+  HEAD_SHADOW_COLOR: "red",
+  HEAD_SHADOW_BLUR: 25,
+  HEAD_TRANSPARENCY:1,
+  HEAD_RADIO:0.5,
+}
+
+export {
+  DRAW_APPLE,
+}
