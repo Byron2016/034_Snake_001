@@ -24,6 +24,8 @@ import { drawApple } from './components/Apple/drawApple'
 
 import { GAME_LOOP_CONSOL, IS_DEVELOPMENT } from './config'
 import { drawBody } from './components/Snake/drawBody'
+import { DRAW_HEAD } from './constants/head_constants'
+import { DRAW_APPLE } from './constants/apple_constants'
 
 function App() {
   const canvasRef = useRef(null)
@@ -79,7 +81,11 @@ function App() {
   }
 
   const checkAppleCollision = (newSnake) => {
-    if (newSnake[0][0] === apple[0] && newSnake[0][1] === apple[1]) {
+    const distX = newSnake[0][0] - apple[0]
+    const distY = newSnake[0][1] - apple[1]
+    const dist = Math.sqrt(distX * distX + distY * distY)
+
+    if (dist <= DRAW_HEAD.HEAD_RADIO + DRAW_APPLE.APPLE_RADIO) {
       let newApple = createApple()
       while (checkCollision(newApple, newSnake)) {
         newApple = createApple() // 41.59
