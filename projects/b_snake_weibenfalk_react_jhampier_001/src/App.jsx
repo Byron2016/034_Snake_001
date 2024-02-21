@@ -26,6 +26,7 @@ import { GAME_LOOP_CONSOL, IS_DEVELOPMENT } from './config'
 import { drawBody } from './components/Snake/drawBody'
 import { DRAW_HEAD } from './constants/head_constants'
 import { DRAW_APPLE } from './constants/apple_constants'
+import { distanceTwoPoints } from './lib/utils'
 
 function App() {
   const canvasRef = useRef(null)
@@ -65,10 +66,10 @@ function App() {
 
   const checkCollision = (piece, snk = snake) => {
     if (
-      piece[0] * SCALE >= CANVAS_SIZE[0] ||
-      piece[0] < 0 ||
+      piece[0] * SCALE + DRAW_HEAD.HEAD_RADIO >= CANVAS_SIZE[0] ||
+      piece[0] <= 0 ||
       piece[1] * SCALE >= CANVAS_SIZE[1] ||
-      piece[1] < 0
+      piece[1] <= 0
     ) {
       return true
     }
@@ -81,9 +82,7 @@ function App() {
   }
 
   const checkAppleCollision = (newSnake) => {
-    const distX = newSnake[0][0] - apple[0]
-    const distY = newSnake[0][1] - apple[1]
-    const dist = Math.sqrt(distX * distX + distY * distY)
+    const dist = distanceTwoPoints([newSnake[0][0], newSnake[0][1]], apple)
 
     if (dist <= DRAW_HEAD.HEAD_RADIO + DRAW_APPLE.APPLE_RADIO) {
       let newApple = createApple()
