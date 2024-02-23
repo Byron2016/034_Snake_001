@@ -15,18 +15,21 @@ import {
   DIRECTIONS,
   COLOR_BACKGROUND,
 } from './constants/constants'
+import { DRAW_HEAD } from './constants/head_constants'
+import { DRAW_APPLE } from './constants/apple_constants'
+import { DOUBLE_RECTANGLE } from './constants/develop_constants'
+import { GAME_LOOP_CONSOL, IS_DEVELOPMENT } from './config'
 
 //components
 import { drawBackground } from './components/Background/drawBackground'
 import { drawHead } from './components/Snake/drawHead'
 import { EyesToDraw } from './components/Snake/drawEyes'
 import { drawApple } from './components/Apple/drawApple'
-
-import { GAME_LOOP_CONSOL, IS_DEVELOPMENT } from './config'
 import { drawBody } from './components/Snake/drawBody'
-import { DRAW_HEAD } from './constants/head_constants'
-import { DRAW_APPLE } from './constants/apple_constants'
+
+//utils
 import { distanceTwoPoints } from './lib/utils'
+import drawDoubleRectangle from './components/utils/drawDoubleRectangle'
 
 function App() {
   const canvasRef = useRef(null)
@@ -35,6 +38,7 @@ function App() {
   const [dir, setDir] = useState([0, -1])
   const [speed, setSpeed] = useState(null)
   const [gameOver, setGameOver] = useState(false)
+  const [rotation, setRotation] = useState([0, 0, 0])
 
   const startGame = () => {
     // console.log('startGame')
@@ -52,6 +56,25 @@ function App() {
 
   const moveSnake = ({ keyCode }) => {
     //console.log('moveSnake')
+
+    const rotSpeed = 1 + 1 * 10
+    let newRotation = [0, 0, 0]
+
+    if (keyCode === 65) {
+      //console.clear()
+      newRotation = [rotation[0] + 0, rotation[1] + 0, rotation[2] + rotSpeed]
+      setRotation(newRotation)
+    }
+
+    if (keyCode === 68) {
+      newRotation = [rotation[0] + 0, rotation[1] + 0, rotation[2] - rotSpeed]
+      setRotation(newRotation)
+    }
+
+    if (keyCode === 71) {
+      setRotation([0, 0, 0])
+    }
+
     // to ensure that you only press arrow keys on the keyboard
     keyCode >= 37 && keyCode <= 40 && setDir(DIRECTIONS[keyCode])
   }
@@ -121,40 +144,68 @@ function App() {
   useEffect(() => {
     // It is will triggered when change: snake, apple, gameOver
     const canvas = canvasRef.current
-    const context = canvas.getContext('2d')
+    const ctx = canvas.getContext('2d')
 
     // Background
-    context.setTransform(1, 0, 0, 1, 0, 0)
-    context.clearRect(0, 0, CANVAS_SIZE[0], CANVAS_SIZE[1])
-    drawBackground({ color: COLOR_BACKGROUND[0], ctx: context })
+    ctx.setTransform(1, 0, 0, 1, 0, 0)
+    ctx.clearRect(0, 0, CANVAS_SIZE[0], CANVAS_SIZE[1])
+    drawBackground({ color: COLOR_BACKGROUND[0], ctx })
 
-    context.setTransform(SCALE, 0, 0, SCALE, 0, 0)
-
-    // Snake body
-    snake.forEach(([x, y]) => {
-      drawBody({ position: { x, y }, ctx: context })
-    })
-
-    // Head
-    drawHead({ position: { x: snake[0][0], y: snake[0][1] }, ctx: context })
-
-    // Eyes
-    EyesToDraw({
-      eye_one_position: { x: snake[0][0], y: snake[0][1] },
-      eye_two_position: { x: snake[0][0], y: snake[0][1] },
-      ctx: context,
-      dir,
-    })
+    ctx.setTransform(SCALE, 0, 0, SCALE, 0, 0)
 
     // Apple
-    drawApple({ position: { x: apple[0], y: apple[1] }, ctx: context })
+    drawApple({ position: { x: apple[0], y: apple[1] }, ctx })
+
+    // Snake
+    drawSnake({ ctx })
 
     //context.clearRect(0, 0, CANVAS_SIZE[0], CANVAS_SIZE[1])
     //context.fillStyle = 'pink'
     //snake.forEach(([x, y]) => context.fillRect(x, y, 1, 1))
     //context.fillStyle = 'lightblue'
     //context.fillRect(apple[0], apple[1], 1, 1)
-  }, [snake, apple, gameOver, dir])
+  }, [snake, apple, gameOver, dir, rotation])
+
+  const drawSnake = ({ ctx }) => {
+    //SCALE
+    ctx.setTransform(SCALE, 0, 0, SCALE, 0, 0)
+
+    ctx.save()
+    ctx.translate(snake[0][0], snake[0][1])
+    ctx.rotate(rotation[2] / SCALE)
+    ctx.translate(-snake[0][0], -snake[0][1])
+
+    // Snake body
+    snake.forEach(([x, y]) => {
+      drawBody({ position: { x, y }, ctx })
+    })
+
+    // DoubleRectangle
+    if (IS_DEVELOPMENT)
+      drawDoubleRectangle({
+        position: { x: snake[0][0], y: snake[0][1] },
+        ctx,
+        outSideRectangleColor: DOUBLE_RECTANGLE.DR_OUTSIDE_COLOR,
+        inSideRectangleColor: DOUBLE_RECTANGLE.DR_INSIDE_COLOR,
+        rectLineWidth: DOUBLE_RECTANGLE.DR_LINE_WIDTH,
+        outSideRectangleSide: DOUBLE_RECTANGLE.DR_OUTSIDE_SIDE,
+        inSideRectangleSide: DOUBLE_RECTANGLE.DR_INSIDE_SIDE,
+        transparency: DOUBLE_RECTANGLE.DR_TRANSPARENCY,
+      })
+
+    // Head
+    drawHead({ position: { x: snake[0][0], y: snake[0][1] }, ctx })
+
+    //Eyes
+    EyesToDraw({
+      eye_one_position: { x: snake[0][0], y: snake[0][1] },
+      eye_two_position: { x: snake[0][0], y: snake[0][1] },
+      ctx,
+      dir,
+    })
+
+    ctx.restore()
+  }
 
   useInterval(() => gameLoop(), speed)
 
