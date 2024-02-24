@@ -1,3 +1,4 @@
+import drawCircle from './drawCircle'
 import drawRectangle from './drawRectangle'
 
 function drawDoubleRectangle({
@@ -31,6 +32,22 @@ function drawDoubleRectangle({
     lineColor: inSideRectangleColor,
     transparency,
     rectLineWidth,
+    ctx,
+  })
+
+  const newPosition = {
+    x: position.x + outSideRectangleSide,
+    y: position.y,
+  }
+
+  drawCircle({
+    position: newPosition,
+
+    radio: 0.1,
+    color: inSideRectangleColor,
+    transparency,
+    shadowColor: inSideRectangleColor,
+    shadowBlur: transparency,
     ctx,
   })
 }

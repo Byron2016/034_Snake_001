@@ -5,7 +5,8 @@ const SNAKE_START = [
 ]
 const APPLE_START = [8, 3]
 const SCALE = 40
-const SPEED = 300
+const SPEED = 100
+const ROTATION_SPEED = 90
 const DIRECTIONS = {
   38: [0, -1], // up
   40: [0, 1], // down
@@ -29,4 +30,5 @@ export {
   DIRECTIONS,
   COLOR_BACKGROUND,
   DRAW_BACKGROUND,
+  ROTATION_SPEED,
 }
