@@ -14,6 +14,7 @@ import {
   SPEED,
   DIRECTIONS,
   COLOR_BACKGROUND,
+  ROTATION_SPEED,
 } from './constants/constants'
 import { DRAW_HEAD } from './constants/head_constants'
 import { DRAW_APPLE } from './constants/apple_constants'
@@ -39,6 +40,7 @@ function App() {
   const [speed, setSpeed] = useState(null)
   const [gameOver, setGameOver] = useState(false)
   const [rotation, setRotation] = useState([0, 0, 0])
+  const [keys, setKeys] = useState({ key1: false, key2: false })
 
   const startGame = () => {
     // console.log('startGame')
@@ -47,6 +49,7 @@ function App() {
     setDir([0, -1])
     setSpeed(SPEED)
     setGameOver(false)
+    setRotation([0, 0, 0])
   }
 
   const endGame = () => {
@@ -57,18 +60,16 @@ function App() {
   const moveSnake = ({ keyCode }) => {
     //console.log('moveSnake')
 
-    const rotSpeed = 1 + 1 * 10
-    let newRotation = [0, 0, 0]
+    const newKeys = { ...keys }
 
-    if (keyCode === 65) {
-      //console.clear()
-      newRotation = [rotation[0] + 0, rotation[1] + 0, rotation[2] + rotSpeed]
-      setRotation(newRotation)
+    if (keyCode === 65 || keyCode === 97) {
+      newKeys.key1 = true
+      setKeys(newKeys)
     }
 
-    if (keyCode === 68) {
-      newRotation = [rotation[0] + 0, rotation[1] + 0, rotation[2] - rotSpeed]
-      setRotation(newRotation)
+    if (keyCode === 68 || keyCode === 100) {
+      newKeys.key2 = true
+      setKeys(newKeys)
     }
 
     if (keyCode === 71) {
@@ -76,7 +77,20 @@ function App() {
     }
 
     // to ensure that you only press arrow keys on the keyboard
-    keyCode >= 37 && keyCode <= 40 && setDir(DIRECTIONS[keyCode])
+    // keyCode >= 37 && keyCode <= 40 && setDir(DIRECTIONS[keyCode])
+  }
+
+  const moveSnakeUp = ({ keyCode }) => {
+    const newKeys = { ...keys }
+
+    if (keyCode === 65 || keyCode === 97) {
+      newKeys.key1 = false
+      setKeys(newKeys)
+    }
+    if (keyCode === 68 || keyCode === 100) {
+      newKeys.key2 = false
+      setKeys(newKeys)
+    }
   }
 
   const createApple = () => {
@@ -119,26 +133,65 @@ function App() {
     return false
   }
 
-  const gameLoop = () => {
-    // ensure that we do a deep clone
-    const snakeCopy = JSON.parse(JSON.stringify(snake))
-    IS_DEVELOPMENT &&
-      GAME_LOOP_CONSOL &&
-      console.log(`01 - gameloop - snakeCopy: ${snakeCopy}`)
-    const newSnakeHead = [snakeCopy[0][0] + dir[0], snakeCopy[0][1] + dir[1]]
-    IS_DEVELOPMENT &&
-      GAME_LOOP_CONSOL &&
-      console.log(
-        `02 - gameloop - newSnakeHead: ${newSnakeHead} snakeCopy[0][0]: ${snakeCopy[0][0]} snakeCopy[0][1]: ${snakeCopy[0][1]} dir[0]: ${dir[0]} dir[1]: ${dir[1]}`,
-      )
-    snakeCopy.unshift(newSnakeHead)
-    IS_DEVELOPMENT &&
-      GAME_LOOP_CONSOL &&
-      console.log(`03 - gameloop - snakeCopy unshift: ${snakeCopy}`)
+  const update = () => {
+    //console.log(`update`)
+    const ang = (ROTATION_SPEED * Math.PI) / 180 // Math.PI / 2.1
+    let newAngle = 0
+    let newRotation = [0, 0, 0]
+    if (keys.key1) {
+      newAngle = rotation[2] - ang
 
-    if (checkCollision(newSnakeHead)) endGame()
-    if (!checkAppleCollision(snakeCopy)) snakeCopy.pop()
-    setSnake(snakeCopy)
+      if (newAngle >= 2 * Math.PI || newAngle <= -2 * Math.PI) {
+        newAngle = newAngle + 2 * Math.PI
+      }
+      newRotation = [rotation[0] + 0, rotation[1] + 0, newAngle]
+      setRotation(newRotation)
+
+      newRotation = [rotation[0] + 0, rotation[1] + 0, newAngle]
+      setRotation(newRotation)
+    }
+    if (keys.key2) {
+      newAngle = rotation[2] + ang
+
+      if (newAngle >= 2 * Math.PI || newAngle <= -2 * Math.PI) {
+        newAngle = newAngle - 2 * Math.PI
+      }
+      newRotation = [rotation[0] + 0, rotation[1] + 0, newAngle]
+      setRotation(newRotation)
+
+      newRotation = [rotation[0] + 0, rotation[1] + 0, newAngle]
+      setRotation(newRotation)
+    }
+  }
+
+  const gameLoop = () => {
+    //console.log(`gameLoop`)
+    update()
+
+    // ensure that we do a deep clone
+    // const snakeCopy = JSON.parse(JSON.stringify(snake))
+
+    // IS_DEVELOPMENT &&
+    //   GAME_LOOP_CONSOL &&
+    //   console.log(`01 - gameloop - snakeCopy: ${snakeCopy}`)
+
+    // const newSnakeHead = [snakeCopy[0][0] + dir[0], snakeCopy[0][1] + dir[1]]
+
+    // IS_DEVELOPMENT &&
+    //   GAME_LOOP_CONSOL &&
+    //   console.log(
+    //     `02 - gameloop - newSnakeHead: ${newSnakeHead} snakeCopy[0][0]: ${snakeCopy[0][0]} snakeCopy[0][1]: ${snakeCopy[0][1]} dir[0]: ${dir[0]} dir[1]: ${dir[1]}`,
+    //   )
+
+    // snakeCopy.unshift(newSnakeHead)
+
+    // IS_DEVELOPMENT &&
+    //   GAME_LOOP_CONSOL &&
+    //   console.log(`03 - gameloop - snakeCopy unshift: ${snakeCopy}`)
+
+    // if (checkCollision(newSnakeHead)) endGame()
+    // if (!checkAppleCollision(snakeCopy)) snakeCopy.pop()
+    // setSnake(snakeCopy)
   }
 
   useEffect(() => {
@@ -172,7 +225,7 @@ function App() {
 
     ctx.save()
     ctx.translate(snake[0][0], snake[0][1])
-    ctx.rotate(rotation[2] / SCALE)
+    ctx.rotate(rotation[2])
     ctx.translate(-snake[0][0], -snake[0][1])
 
     // Snake body
@@ -211,7 +264,12 @@ function App() {
 
   return (
     <>
-      <div role="button" tabIndex="0" onKeyDown={(e) => moveSnake(e)}>
+      <div
+        role="button"
+        tabIndex="0"
+        onKeyDown={(e) => moveSnake(e)}
+        onKeyUp={(e) => moveSnakeUp(e)}
+      >
         <canvas
           style={{ border: '1px solid black' }}
           ref={canvasRef}
@@ -220,6 +278,20 @@ function App() {
         />
         {gameOver && <div>GAME OVER</div>}
         <button onClick={startGame}>Start Game</button>
+
+        {IS_DEVELOPMENT && (
+          <>
+            <br></br>
+            <button onClick={() => setSpeed(2)}>Game Again</button>
+
+            <span>{(rotation[2] * 180) / Math.PI}</span>
+            <span>{'xxxxxx'}</span>
+            <br></br>
+            <span>{+keys.key1}</span>
+            <span>{'---------'}</span>
+            <span>{+keys.key2}</span>
+          </>
+        )}
       </div>
     </>
   )
