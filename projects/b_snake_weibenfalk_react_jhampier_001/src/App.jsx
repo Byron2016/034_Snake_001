@@ -169,29 +169,29 @@ function App() {
     update()
 
     // ensure that we do a deep clone
-    const snakeCopy = JSON.parse(JSON.stringify(snake))
+    // const snakeCopy = JSON.parse(JSON.stringify(snake))
 
-    IS_DEVELOPMENT &&
-      GAME_LOOP_CONSOL &&
-      console.log(`01 - gameloop - snakeCopy: ${snakeCopy}`)
+    // IS_DEVELOPMENT &&
+    //   GAME_LOOP_CONSOL &&
+    //   console.log(`01 - gameloop - snakeCopy: ${snakeCopy}`)
 
-    const newSnakeHead = [snakeCopy[0][0] + dir[0], snakeCopy[0][1] + dir[1]]
+    // const newSnakeHead = [snakeCopy[0][0] + dir[0], snakeCopy[0][1] + dir[1]]
 
-    IS_DEVELOPMENT &&
-      GAME_LOOP_CONSOL &&
-      console.log(
-        `02 - gameloop - newSnakeHead: ${newSnakeHead} snakeCopy[0][0]: ${snakeCopy[0][0]} snakeCopy[0][1]: ${snakeCopy[0][1]} dir[0]: ${dir[0]} dir[1]: ${dir[1]}`,
-      )
+    // IS_DEVELOPMENT &&
+    //   GAME_LOOP_CONSOL &&
+    //   console.log(
+    //     `02 - gameloop - newSnakeHead: ${newSnakeHead} snakeCopy[0][0]: ${snakeCopy[0][0]} snakeCopy[0][1]: ${snakeCopy[0][1]} dir[0]: ${dir[0]} dir[1]: ${dir[1]}`,
+    //   )
 
-    snakeCopy.unshift(newSnakeHead)
+    // snakeCopy.unshift(newSnakeHead)
 
-    IS_DEVELOPMENT &&
-      GAME_LOOP_CONSOL &&
-      console.log(`03 - gameloop - snakeCopy unshift: ${snakeCopy}`)
+    // IS_DEVELOPMENT &&
+    //   GAME_LOOP_CONSOL &&
+    //   console.log(`03 - gameloop - snakeCopy unshift: ${snakeCopy}`)
 
-    if (checkCollision(newSnakeHead)) endGame()
-    if (!checkAppleCollision(snakeCopy)) snakeCopy.pop()
-    setSnake(snakeCopy)
+    // if (checkCollision(newSnakeHead)) endGame()
+    // if (!checkAppleCollision(snakeCopy)) snakeCopy.pop()
+    // setSnake(snakeCopy)
   }
 
   useEffect(() => {
