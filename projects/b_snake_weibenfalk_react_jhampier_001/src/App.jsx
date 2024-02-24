@@ -31,6 +31,7 @@ import { drawBody } from './components/Snake/drawBody'
 //utils
 import { distanceTwoPoints } from './lib/utils'
 import drawDoubleRectangle from './components/utils/drawDoubleRectangle'
+import { DRAW_BODY } from './constants/body_constants'
 
 function App() {
   const canvasRef = useRef(null)
@@ -38,6 +39,7 @@ function App() {
   const [apple, setApple] = useState(APPLE_START)
   const [dir, setDir] = useState([0, -1])
   const [speed, setSpeed] = useState(null)
+  const [gameStart, setGameStart] = useState(false)
   const [gameOver, setGameOver] = useState(false)
   const [rotation, setRotation] = useState([0, 0, 0])
   const [keys, setKeys] = useState({ key1: false, key2: false })
@@ -50,11 +52,13 @@ function App() {
     setSpeed(SPEED)
     setGameOver(false)
     setRotation([0, 0, 0])
+    setGameStart(true)
   }
 
   const endGame = () => {
     setSpeed(null)
     setGameOver(true)
+    setGameStart(false)
   }
 
   const moveSnake = ({ keyCode }) => {
@@ -164,25 +168,75 @@ function App() {
     }
   }
 
+  const initBody = () => {
+    for (let i = 0; i < 3; i++) {
+      let path = []
+      for (let k = 0; k < 12; k++) {
+        path.push({
+          x: snake[0][0],
+          y: snake[0][1],
+        })
+      }
+      DRAW_BODY.BODY_PATH[i] = [...path]
+    }
+    // if (!gameStart) {
+    //   for (let i = 1; i < 3; i++) {
+    //     DRAW_BODY.BODY_PATH[i][DRAW_BODY.BODY_PATH[1].length - 1].x =
+    //       snake[i][0]
+    //     DRAW_BODY.BODY_PATH[i][DRAW_BODY.BODY_PATH[1].length - 1].y =
+    //       snake[i][1]
+    //   }
+    // }
+  }
+
   const gameLoop = () => {
     //console.log(`gameLoop`)
     update()
+    const snakeCopyBody = JSON.parse(JSON.stringify(DRAW_BODY.BODY_PATH))
+    const desp_x = Math.cos(rotation[2] - Math.PI / 2) / SCALE
+    const desp_y = Math.sin(rotation[2] - Math.PI / 2) / SCALE
+    // console.log(snakeCopy[0][0])
+    // console.log(snakeCopy[0][0])
+    const newSnakeBody = {
+      x: snakeCopyBody[0][0].x + desp_x,
+      y: snakeCopyBody[0][0].y + desp_y,
+    }
+    DRAW_BODY.BODY_PATH[0].unshift(newSnakeBody)
+    for (let i = 1; i < DRAW_BODY.BODY_PATH.length; i++) {
+      DRAW_BODY.BODY_PATH[i].unshift(DRAW_BODY.BODY_PATH[i - 1].pop())
+    }
+    DRAW_BODY.BODY_PATH[DRAW_BODY.BODY_PATH.length - 1].pop()
+    console.log(`gameloop: ${JSON.stringify(DRAW_BODY.BODY_PATH)}`)
 
     // ensure that we do a deep clone
+    const snakeCopy = JSON.parse(JSON.stringify(snake))
+    const newSnakeHead = [snakeCopy[0][0] + desp_x, snakeCopy[0][1] + desp_y]
+    snakeCopy.unshift(newSnakeHead)
+    if (checkCollision(newSnakeHead)) endGame()
+    setSnake(snakeCopy)
+    // console.log('')
+
+    // // ensure that we do a deep clone
     // const snakeCopy = JSON.parse(JSON.stringify(snake))
 
     // IS_DEVELOPMENT &&
     //   GAME_LOOP_CONSOL &&
     //   console.log(`01 - gameloop - snakeCopy: ${snakeCopy}`)
 
-    // const newSnakeHead = [snakeCopy[0][0] + dir[0], snakeCopy[0][1] + dir[1]]
+    // const desp_x = Math.cos(rotation[2] - Math.PI / 2) / SCALE
+    // const desp_y = Math.sin(rotation[2] - Math.PI / 2) / SCALE
+
+    // const newSnakeHead = [snakeCopy[0][0] + desp_x, snakeCopy[0][1] + desp_y]
+    // //const newSnakeTail = [snakeCopy[0][0] + dir[0], snakeCopy[0][1] + dir[1]]
 
     // IS_DEVELOPMENT &&
     //   GAME_LOOP_CONSOL &&
     //   console.log(
-    //     `02 - gameloop - newSnakeHead: ${newSnakeHead} snakeCopy[0][0]: ${snakeCopy[0][0]} snakeCopy[0][1]: ${snakeCopy[0][1]} dir[0]: ${dir[0]} dir[1]: ${dir[1]}`,
+    //     `02 - gameloop - newSnakeHead: ${newSnakeHead} snakeCopy[0][0]: ${snakeCopy[0][0]} snakeCopy[0][1]: ${snakeCopy[0][1]} desp_x: ${desp_x} desp_y: ${desp_y}`,
     //   )
 
+    // // Change first element.
+    // snakeCopy.shift()
     // snakeCopy.unshift(newSnakeHead)
 
     // IS_DEVELOPMENT &&
@@ -190,11 +244,25 @@ function App() {
     //   console.log(`03 - gameloop - snakeCopy unshift: ${snakeCopy}`)
 
     // if (checkCollision(newSnakeHead)) endGame()
-    // if (!checkAppleCollision(snakeCopy)) snakeCopy.pop()
+    // //if (!checkAppleCollision(snakeCopy)) snakeCopy.pop()
+    // if (!checkAppleCollision(snakeCopy)) {
+    //   // const aaa = snakeCopy.length
+    //   // console.log(aaa)
+    //   for (let i = 1; i < snakeCopy.length; i++) {
+    //     snakeCopy[i][0] = snakeCopy[i][0] + desp_x
+    //     snakeCopy[i][1] = snakeCopy[i][1] + desp_y
+    //   }
+    // }
     // setSnake(snakeCopy)
   }
 
   useEffect(() => {
+    console.log('useEffect0')
+    initBody()
+  }, [])
+
+  useEffect(() => {
+    console.log('useEffect')
     // It is will triggered when change: snake, apple, gameOver
     const canvas = canvasRef.current
     const ctx = canvas.getContext('2d')
@@ -229,9 +297,23 @@ function App() {
     ctx.translate(-snake[0][0], -snake[0][1])
 
     // Snake body
-    snake.forEach(([x, y]) => {
-      drawBody({ position: { x, y }, ctx })
+    // snake.forEach(([x, y]) => {
+    //   drawBody({ position: { x, y }, ctx })
+    // })
+
+    //console.clear()
+    //console.log(`gameloop: ${JSON.stringify(DRAW_BODY.BODY_PATH)}`)
+    //initBody()
+
+    //console.log(`gameloop: ${JSON.stringify(DRAW_BODY.BODY_PATH)}`)
+    DRAW_BODY.BODY_PATH.forEach((element) => {
+      const toDraw = element.slice(-1)
+      //console.log(toDraw[0], toDraw[0].x, toDraw[0].y)
+      drawBody({ position: { x: toDraw[0].x, y: toDraw[0].y }, ctx })
     })
+    // snake.forEach(([x, y]) => {
+    //   drawBody({ position: { x, y }, ctx })
+    // })
 
     // DoubleRectangle
     if (IS_DEVELOPMENT)
@@ -250,12 +332,12 @@ function App() {
     drawHead({ position: { x: snake[0][0], y: snake[0][1] }, ctx })
 
     //Eyes
-    EyesToDraw({
-      eye_one_position: { x: snake[0][0], y: snake[0][1] },
-      eye_two_position: { x: snake[0][0], y: snake[0][1] },
-      ctx,
-      dir,
-    })
+    // EyesToDraw({
+    //   eye_one_position: { x: snake[0][0], y: snake[0][1] },
+    //   eye_two_position: { x: snake[0][0], y: snake[0][1] },
+    //   ctx,
+    //   dir,
+    // })
 
     ctx.restore()
   }

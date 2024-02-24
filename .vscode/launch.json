@@ -13,10 +13,24 @@
 //     }
 //   ]
 // }
-NexJS
+
+//NexJS
 {
   "version": "0.2.0",
   "configurations": [
+    {
+      "type": "chrome",
+      "name": "http://localhost:5173/",
+      "request": "launch",
+      "url": "http://localhost:5173/"
+    },
+    {
+      "type": "chrome",
+      "request": "launch",
+      "name": "aaaLaunch Chrome against localhost",
+      "url": "http://localhost:5173",
+      "webRoot": "${workspaceFolder}/src"
+    },
     {
       "name": "Next.js: debug server-side",
       "type": "node-terminal",
@@ -42,7 +56,6 @@ NexJS
     }
   ]
 }
-
 
 // Astro
 // {
