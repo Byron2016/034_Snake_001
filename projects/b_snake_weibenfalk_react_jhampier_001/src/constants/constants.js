@@ -1,12 +1,9 @@
 const CANVAS_SIZE = [800, 800]
-const SNAKE_START = [
-  [8, 10],
-  [8, 11],
-  [8, 12],
-]
-const APPLE_START = [8, 3]
+const SNAKE_START_POSITION = [[8, 10]]
+const SNAKE_START = []
+const APPLE_START = [15, 10]
 const SCALE = 40
-const SPEED = 1000
+const SPEED = 42
 const ROTATION_SPEED = 10
 const DIRECTIONS = {
   38: [0, -1], // up
@@ -32,4 +29,5 @@ export {
   COLOR_BACKGROUND,
   DRAW_BACKGROUND,
   ROTATION_SPEED,
+  SNAKE_START_POSITION,
 }
