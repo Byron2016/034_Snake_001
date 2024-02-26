@@ -9,8 +9,12 @@
     {
       "path": "../projects/b_snake_weibenfalk_react",
     },
+    {
+      "path": "../projects/a_snake_original_vanilla",
+    },
   ],
   "settings": {
     "editor.fontSize": 13,
+    "liveServer.settings.multiRootWorkspaceName": "a_snake_original_vanilla",
   },
 }
